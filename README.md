@@ -35,4 +35,4 @@ Hello linkerd! I'm Green.
 
 ### Architecture
 
-![alt text](https://git.target.com/GanapathySanthanam/docker-linkerd/blob/master/diagram.png)
+![alt text](https://github.com/ganasubrgit/l5d-n5d-zk-docker/blob/master/diagram.png)
