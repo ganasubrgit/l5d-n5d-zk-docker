@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  #green page
+  green:
+    image: nginx
+    volumes:
+    - ./wwwg:/usr/share/nginx/html:ro
+  #red page
+  red:
+    image: nginx
+    volumes:
+    - ./wwwr:/usr/share/nginx/html:ro
+
+  #linkerd
+  l5d:
+    image: buoyantio/linkerd:1.5.0
+    ports:
+    - "4140:4140"
+    - "9990:9990"
+    depends_on:
+    - "n5d"
+    volumes:
+    - ./config/linkerd.yml:/io.buoyant/linkerd.yml:ro
+    - ./disco:/io.buoyant/disco
+    environment:
+    - JVM_HEAP_MAX=1024M
+    - JVM_HEAP_MIN=1024M
+    - FINAGLE_WORKERS=24
+    - LOCAL_JVM_OPTIONS=-XX:NativeMemoryTracking=summary
+    command: >
+      /io.buoyant/linkerd.yml
+
+
+  #namerd
+  n5d:
+    image: buoyantio/namerd:1.5.0
+    ports: ["4100:4100", "4180:4180", "9991:9991"]
+    depends_on:
+    - "zoo1"
+    - "zoo2"
+    - "zoo3"
+    volumes:
+    - ./config/namerd.yml:/io.buoyant/namerd.yml:ro
+    - ./disco:/io.buoyant/disco
+    command: >
+      /io.buoyant/namerd.yml
+
+  #Zookeper
+  zoo1:
+    image: zookeeper
+    restart: always
+    hostname: zoo1
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=0.0.0.0:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+    
+
+  zoo2:
+    image: zookeeper
+    restart: always
+    hostname: zoo2
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=0.0.0.0:2888:3888 server.3=zoo3:2888:3888
+
+  zoo3:
+    image: zookeeper
+    restart: always
+    hostname: zoo3
+    environment:
+      ZOO_MY_ID: 3
+      ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=0.0.0.0:2888:3888
+    volumes: 
+      - ./config/zstart.sh:/zstart.sh:ro
+    command: /bin/sh -c "/zstart.sh"  #start zookeper with dtab
