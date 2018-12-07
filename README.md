@@ -4,7 +4,7 @@
 ```$ export NAMERD_URL=http://localhost:4180```
 
 ```
-Gans> curl -v -X PUT -d "/svc/red => /$/inet/red/80; /svc/green => /$/inet/green/80" -H "Content-Type: application/dtab" -H "Content-Type: application/dtab" $NAMERD_URL/api/1/dtabs/default
+curl -v -X PUT -d "/svc/red => /$/inet/red/80; /svc/green => /$/inet/green/80" -H "Content-Type: application/dtab" -H "Content-Type: application/dtab" $NAMERD_URL/api/1/dtabs/default
 *   Trying ::1...
 * TCP_NODELAY set
 * Connected to localhost (::1) port 4180 (#0)
