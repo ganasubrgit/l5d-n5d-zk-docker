@@ -24,7 +24,7 @@ curl -v -X PUT -d "/svc/red => /$/inet/red/80; /svc/green => /$/inet/green/80" -
 
 ```
 
-### to check the request flow with host header 
+### To check the request flow with host header 
 
 ```
 curl http://127.0.0.1:4140/ -H 'Host: red'
