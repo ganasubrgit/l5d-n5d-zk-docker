@@ -1,4 +1,4 @@
-### Linkerd Service Mesh
+### Linkerd Service Mesh using Docker Compose
 
 ### Dtab add
 
