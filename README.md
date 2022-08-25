@@ -1,5 +1,16 @@
 ### Linkerd Service Mesh using Docker Compose
 
+### Prerequisite
+- Docker
+- Docker Compose
+
+### To start the setup
+Clone this repo, cd to the directory and run the following command.
+
+```
+docker compose up
+```
+
 ### Dtab add
 
 ```$ export NAMERD_URL=http://localhost:4180```
